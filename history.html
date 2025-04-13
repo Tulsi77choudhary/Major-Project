@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Transaction History</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f8f9fc;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .container {
+            background: #fff;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 500px;
+        }
+
+        h2 {
+            text-align: left;
+            margin-bottom: 15px;
+            color: #2c3e50;
+        }
+
+        input {
+            width: 100%;
+            padding: 12px;
+            font-size: 14px;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            margin-bottom: 15px;
+        }
+
+        button {
+            width: 100%;
+            padding: 12px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #0069d9;
+        }
+
+        #balance-info {
+            margin-top: 20px;
+            text-align: center;
+            font-weight: bold;
+            font-size: 18px;
+            color: #28a745;
+        }
+
+        .transaction-item {
+            margin-bottom: 15px;
+            padding: 10px;
+            background-color: #f9f9f9;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+        }
+
+        .transaction-item p {
+            margin: 5px 0;
+        }
+
+    </style>
+</head>
+<body>
+    
+    <div class="container">
+        <h2>Transaction History</h2>
+        <input type="number" id="txnId" placeholder="Account ID">
+        <button onclick="fetchTransactionHistory()">View Transactions</button>
+        <ul class="list-group mt-2" id="txnList"></ul>
+        <div id="error-message" style="color: red;"></div>
+    </div>
+
+    <script>
+        const apiUrl = "http://localhost:8080/api/bank/transactions";
+
+        // Fetch transaction history for a user
+        function fetchTransactionHistory() {
+            const userId = document.getElementById("txnId").value;
+            
+            if (!userId) {
+                document.getElementById("error-message").textContent = "Please provide a valid account ID.";
+                return;
+            }
+
+            fetch(`${apiUrl}?userId=${userId}`)
+                .then(response => response.json())
+                .then(transactions => {
+                    const txnList = document.getElementById("txnList");
+                    txnList.innerHTML = ''; // Clear previous data
+
+                    if (transactions && transactions.length > 0) {
+                        transactions.forEach(transaction => {
+                            const transactionElement = document.createElement("div");
+                            transactionElement.classList.add("transaction-item");
+
+                            const transactionDetails = `
+                                <p><strong>Transaction ID:</strong> ${transaction.id}</p>
+                                <p><strong>Amount:</strong> ${transaction.amount}</p>
+                                <p><strong>Type:</strong> ${transaction.type}</p>
+                                <p><strong>Date:</strong> ${new Date(transaction.date).toLocaleString()}</p>
+                            `;
+                            transactionElement.innerHTML = transactionDetails;
+                            txnList.appendChild(transactionElement);
+                        });
+                    } else {
+                        txnList.innerHTML = "<p>No transactions found.</p>";
+                    }
+                })
+                .catch(error => {
+                    document.getElementById("error-message").textContent = "Failed to load transaction history.";
+                });
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Customer Register</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f1f1f1;
+      margin: 0;
+      padding: 20px;
+    }
+
+    .form-container {
+      background: white;
+      max-width: 900px;
+      margin: 40px auto;
+      padding: 30px;
+      border-radius: 10px;
+      box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+    }
+
+    .form-container h2 {
+      text-align: center;
+      margin-bottom: 25px;
+    }
+
+    .form-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 20px;
+    }
+
+    input, select, textarea {
+      width: 100%;
+      padding: 10px;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+    }
+
+    textarea {
+      resize: vertical;
+    }
+
+    .btn-submit {
+      background-color: #4CAF50;
+      color: white;
+      padding: 12px 20px;
+      border: none;
+      border-radius: 6px;
+      font-size: 16px;
+      cursor: pointer;
+      margin-top: 20px;
+      width: 100%;
+    }
+
+    .status-message {
+      margin-top: 15px;
+      text-align: center;
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="form-container">
+    <h2>Customer Register..!!</h2>
+    <form id="customerRegisterForm">
+      <div class="form-grid">
+        <input type="text" id="firstName" placeholder="Enter first name" required />
+        <input type="text" id="lastName" placeholder="Enter last name" required />
+
+        <input type="date" id="dob" required />
+        <input type="text" id="phone" placeholder="Enter phone number" required />
+
+        <input type="email" id="email" placeholder="Enter email id" required />
+        <select id="gender" required>
+          <option value="">Select Gender</option>
+          <option value="Male">Male</option>
+          <option value="Female">Female</option>
+          <option value="Other">Other</option>
+        </select>
+
+        <select id="branchId" required>
+            <option value="">Select Branch</option>
+            <option value="SBI">SBI</option>
+            <option value="Punjab">Punjab</option>
+            <option value="Canara">Canara</option>
+        </select>
+          
+        <input type="password" id="password" placeholder="Enter password" required />
+
+        <textarea id="permanentAddress" placeholder="Enter Permanent Address" required></textarea>
+        <textarea id="presentAddress" placeholder="Enter Present Address" required></textarea>
+      </div>
+
+      <button type="submit" class="btn-submit">Register Customer</button>
+      <p id="statusMessage" class="status-message"></p>
+    </form>
+  </div>
+
+  <script>
+    // Load branch list into dropdown
+    window.onload = function () {
+      fetch('http://localhost:8080/api/branches')
+        .then(response => response.json())
+        .then(data => {
+          const branchDropdown = document.getElementById('branchId');
+          data.forEach(branch => {
+            const option = document.createElement('option');
+            option.value = branch.id;
+            option.textContent = branch.name + " - " + branch.location;
+            branchDropdown.appendChild(option);
+          });
+        })
+        .catch(err => {
+          document.getElementById('statusMessage').innerText = "Error loading branches.";
+        });
+    };
+
+    // Submit registration form
+    document.getElementById('customerRegisterForm').addEventListener('submit', function (e) {
+      e.preventDefault();
+
+      const customerData = {
+        firstName: document.getElementById('firstName').value,
+        lastName: document.getElementById('lastName').value,
+        dob: document.getElementById('dob').value,
+        phone: document.getElementById('phone').value,
+        email: document.getElementById('email').value,
+        gender: document.getElementById('gender').value,
+        branchId: document.getElementById('branchId').value,
+        password: document.getElementById('password').value,
+        permanentAddress: document.getElementById('permanentAddress').value,
+        presentAddress: document.getElementById('presentAddress').value
+      };
+
+      fetch('http://localhost:8080/add-customer', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(customerData)
+      })
+      .then(response => {
+        if (response.ok) {
+          document.getElementById('statusMessage').innerText = "Customer registered successfully!";
+          document.getElementById('customerRegisterForm').reset();
+        } else {
+          throw new Error("Registration failed");
+        }
+      })
+      .catch(error => {
+        document.getElementById('statusMessage').innerText = "Failed to register customer.";
+      });
+    });
+  </script>
+
+</body>
+</html>

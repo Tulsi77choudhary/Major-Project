@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Transfer</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f7f7f7;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        .container {
+            background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 400px;
+        }
+
+        h2 {
+            text-align: center;
+            margin-bottom: 20px;
+            color: #333;
+        }
+
+        input {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 15px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-size: 14px;
+            box-sizing: border-box;
+        }
+
+        button {
+            width: 100%;
+            padding: 10px;
+            background-color: #4CAF50;
+            border: none;
+            border-radius: 4px;
+            color: white;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            font-size: 16px;
+        }
+
+        button:hover {
+            background-color: #45a049;
+        }
+
+        #transfer-message {
+            margin-top: 10px;
+            text-align: center;
+            font-weight: bold;
+        }
+
+        #transfer-message.success {
+            color: green;
+        }
+
+        #transfer-message.error {
+            color: red;
+        }
+
+        @media screen and (max-width: 480px) {
+            .container {
+                width: 90%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Transfer Funds</h2>
+        <input type="number" id="fromId" placeholder="From Account ID" disabled>
+        <input type="number" id="toId" placeholder="To Account ID">
+        <input type="number" id="transferAmount" placeholder="Amount">
+        <button onclick="transfer()">Transfer</button>
+        <div id="transfer-message"></div>
+    </div>
+
+    <script>
+        const apiUrl = "http://localhost:8080/api/bank/transfer";
+
+        // Set From ID on page load
+        window.onload = function () {
+            const user = JSON.parse(localStorage.getItem('user'));
+            if (user) {
+                document.getElementById("fromId").value = user.id;
+            } else {
+                alert("User is not logged in.");
+            }
+        };
+
+        function transfer() {
+            const user = JSON.parse(localStorage.getItem('user'));
+            if (!user) {
+                alert("User is not logged in.");
+                return;
+            }
+
+            const fromUserId = user.id;
+            const toUserId = document.getElementById("toId").value;
+            const amount = parseFloat(document.getElementById("transferAmount").value);
+
+            if (!toUserId || isNaN(amount)) {
+                alert("Please fill all fields to transfer.");
+                return;
+            }
+
+            if (amount <= 0) {
+                alert("Please enter a valid amount greater than zero.");
+                return;
+            }
+
+            const transferRequest = {
+                fromUserId: fromUserId,
+                toUserId: toUserId,
+                amount: amount
+            };
+
+            fetch(apiUrl, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(transferRequest),
+            })
+            .then(response => response.text())  // Since your backend returns a string, not JSON
+            .then(message => {
+                const transferMessage = document.getElementById("transfer-message");
+                if (message.toLowerCase().includes("success")) {
+                    transferMessage.textContent = message;
+                    transferMessage.className = 'success';
+                    document.getElementById("toId").value = '';
+                    document.getElementById("transferAmount").value = '';
+                } else {
+                    transferMessage.textContent = message;
+                    transferMessage.className = 'error';
+                }
+            })
+            .catch(error => {
+                const transferMessage = document.getElementById("transfer-message");
+                transferMessage.textContent = "Transfer failed. Please try again.";
+                transferMessage.className = 'error';
+            });
+        }
+    </script>
+</body>
+</html>

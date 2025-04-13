@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Withdraw</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f7f7f7;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        .container {
+            background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 350px;
+        }
+
+        h2 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        input {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 15px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-size: 14px;
+            box-sizing: border-box;
+        }
+
+        button {
+            width: 100%;
+            padding: 10px;
+            background-color: #f44336;
+            border: none;
+            border-radius: 4px;
+            color: white;
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #d32f2f;
+        }
+
+        #withdraw-message {
+            margin-top: 10px;
+            text-align: center;
+            font-weight: bold;
+        }
+
+        #withdraw-message.success {
+            color: green;
+        }
+
+        #withdraw-message.error {
+            color: red;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Withdraw</h2>
+        <input type="number" id="withdrawId" placeholder="Account ID" disabled>
+        <input type="number" id="withdrawAmount" placeholder="Amount">
+        <button onclick="withdraw()">Withdraw</button>
+        <div id="withdraw-message"></div>
+    </div>
+
+    <script>
+        const apiUrl = "http://localhost:8080/api/bank/withdraw";
+
+        // Set Account ID on load
+        window.onload = function () {
+            const user = JSON.parse(localStorage.getItem('user'));
+            if (user) {
+                document.getElementById("withdrawId").value = user.id;
+            } else {
+                alert("User is not logged in.");
+            }
+        };
+
+        function withdraw() {
+            const user = JSON.parse(localStorage.getItem('user'));
+            if (!user) {
+                alert("User is not logged in.");
+                return;
+            }
+
+            const amount = parseFloat(document.getElementById("withdrawAmount").value);
+
+            if (isNaN(amount) || amount <= 0) {
+                alert("Please enter a valid amount.");
+                return;
+            }
+
+            const withdrawRequest = {
+                userId: user.id,
+                amount: amount
+            };
+
+            fetch(apiUrl, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(withdrawRequest),
+            })
+            .then(response => response.text())  // assuming backend returns plain text
+            .then(message => {
+                const msgBox = document.getElementById("withdraw-message");
+                if (message.toLowerCase().includes("success")) {
+                    msgBox.textContent = message;
+                    msgBox.className = 'success';
+                    document.getElementById("withdrawAmount").value = '';
+                } else {
+                    msgBox.textContent = message;
+                    msgBox.className = 'error';
+                }
+            })
+            .catch(error => {
+                const msgBox = document.getElementById("withdraw-message");
+                msgBox.textContent = "Withdrawal failed.";
+                msgBox.className = 'error';
+            });
+        }
+    </script>
+</body>
+</html>

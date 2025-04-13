@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Deposit</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f5f7fa;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+    }
+
+    .container {
+      background-color: #fff;
+      padding: 25px 20px;
+      border-radius: 10px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+      width: 320px;
+    }
+
+    h2 {
+      text-align: left;
+      margin-bottom: 20px;
+    }
+
+    input {
+      width: 100%;
+      padding: 12px;
+      margin-bottom: 15px;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+      font-size: 14px;
+    }
+
+    button {
+      width: 100%;
+      padding: 12px;
+      background-color: #218838;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      font-size: 16px;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background-color: #1e7e34;
+    }
+
+    #deposit-message {
+      text-align: center;
+      margin-top: 10px;
+      color: red;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h2>Deposit</h2>
+    <input type="number" id="account-id" placeholder="Account ID" required />
+    <input type="number" id="deposit-amount" placeholder="Amount" min="1" required />
+    <button onclick="deposit()">Deposit</button>
+    <div id="deposit-message"></div>
+  </div>
+
+  <script>
+    const apiUrl = "http://localhost:8080/api/bank/deposit";
+  
+    function deposit() {
+      const accountId = document.getElementById("account-id").value;
+      const amount = document.getElementById("deposit-amount").value;
+  
+      if (!accountId || !amount || parseFloat(amount) <= 0) {
+        alert("Please enter valid Account ID and a positive Amount.");
+        return;
+      }
+  
+      const depositRequest = {
+        userId: parseInt(accountId),
+        amount: parseFloat(amount),
+      };
+  
+      console.log("Sending deposit request:", depositRequest);
+  
+      fetch(apiUrl, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(depositRequest),
+      })
+        .then(async (response) => {
+          const message = await response.text(); // read the plain text message from backend
+  
+          if (!response.ok) {
+            throw new Error(message); // throw with actual error message
+          }
+  
+          document.getElementById("deposit-message").style.color = "green";
+          document.getElementById("deposit-message").textContent = message; // show backend message
+        })
+        .catch((error) => {
+          console.error("Deposit error:", error.message);
+          document.getElementById("deposit-message").style.color = "red";
+          document.getElementById("deposit-message").textContent = "Deposit failed: " + error.message;
+        });
+    }
+  </script>
+  
+  </script>
+</body>
+</html>
