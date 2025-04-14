@@ -6,110 +6,125 @@
     <title>Login</title>
     <style>
         body {
-    font-family: Arial, sans-serif;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
-    background-color: #f7f7f7;
-}
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #f7f7f7;
+            margin: 0;
+        }
 
-.login-container {
-    background-color: white;
-    padding: 20px;
-    border-radius: 8px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    width: 300px;
-}
+        .login-container {
+            background-color: white;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            width: 350px;
+            text-align: center;
+        }
 
-h2 {
-    text-align: center;
-}
+        h2 {
+            color: #333;
+            margin-bottom: 20px;
+        }
 
-label {
-    font-size: 14px;
-    margin-bottom: 5px;
-    display: block;
-}
+        label {
+            font-size: 14px;
+            margin-bottom: 5px;
+            display: block;
+            text-align: left;
+        }
 
-input {
-    width: 100%;
-    padding: 10px;
-    margin-bottom: 10px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-}
+        input {
+            width: 100%;
+            padding: 12px;
+            margin-bottom: 20px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-size: 14px;
+        }
 
-button {
-    width: 100%;
-    padding: 10px;
-    background-color: #4CAF50;
-    border: none;
-    border-radius: 4px;
-    color: white;
-    cursor: pointer;
-    transition: background-color 0.3s;
-}
+        button {
+            width: 100%;
+            padding: 12px;
+            background-color: #4CAF50;
+            border: none;
+            border-radius: 4px;
+            color: white;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background-color 0.3s;
+        }
 
-button:hover {
-    background-color: #45a049;
-}
+        button:hover {
+            background-color: #45a049;
+        }
 
-#login-message {
-    margin-top: 10px;
-    text-align: center;
-    color: red;
-}
+        #login-message {
+            margin-top: 10px;
+            text-align: center;
+            color: red;
+        }
 
+        .footer {
+            margin-top: 20px;
+            font-size: 12px;
+        }
+
+        .footer a {
+            color: #4CAF50;
+            text-decoration: none;
+        }
     </style>
+</head>
 <body>
     <div class="login-container">
         <h2>Login</h2>
         <form id="login-form">
-           
-        <form id="login-form">
             <label for="username">Username:</label>
             <input type="text" id="username" name="username" placeholder="Enter your username" required>
+            
             <label for="password">Password:</label>
             <input type="password" id="password" name="password" placeholder="Enter your password" required>
-            <button type="submit">login</button>
-        </form>
-        <div id="login-message"></div></button>
+            
+            <button type="submit">Login</button>
         </form>
         <div id="login-message"></div>
+        <div class="footer">
+            <p>Don't have an account? <a href="register.html">register</a></p>
+        </div>
     </div>
-   <script>
-    const apiUrl = "http://localhost:8080/api/bank/login";
 
-document.getElementById("login-form").addEventListener("submit", function(event) {
-    event.preventDefault();
+    <script>
+        const apiUrl = "http://localhost:8080/api/bank/login";
 
-    const username = document.getElementById("username").value;
-    const password = document.getElementById("password").value;
+        document.getElementById("login-form").addEventListener("submit", function(event) {
+            event.preventDefault();
 
-    const data = { username, password };
+            const username = document.getElementById("username").value;
+            const password = document.getElementById("password").value;
 
-    fetch(apiUrl, {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(data),
-    })
-    .then(response => response.json())
-    .then(data => {
-        if (data) {
-            localStorage.setItem('user', JSON.stringify(data));
-            window.location.href = "Main_Two.html"; // Redirect to the dashboard
-        } else {
-            document.getElementById("login-message").textContent = "Invalid username or password!";
-        }
-        window.location.href = "Main_Two.html";
-    })
-    .catch(error => {
-        document.getElementById("login-message").textContent = "Login failed!";
-    });
-});
-   </script>
+            fetch(apiUrl, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ username, password })
+            })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error("Login failed");
+                }
+                return response.json();
+            })
+            .then(data => {
+                localStorage.setItem('user', JSON.stringify(data));
+                window.location.href = "Main_Two.html";
+            })
+            .catch(error => {
+                document.getElementById("login-message").textContent = "Invalid username or password!";
+            });
+        });
+    </script>
 </body>
 </html>
+

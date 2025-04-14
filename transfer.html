@@ -80,7 +80,7 @@
 <body>
     <div class="container">
         <h2>Transfer Funds</h2>
-        <input type="number" id="fromId" placeholder="From Account ID" disabled>
+        <input type="number" id="fromId" placeholder="From Account ID" >
         <input type="number" id="toId" placeholder="To Account ID">
         <input type="number" id="transferAmount" placeholder="Amount">
         <button onclick="transfer()">Transfer</button>
@@ -101,58 +101,55 @@
         };
 
         function transfer() {
-            const user = JSON.parse(localStorage.getItem('user'));
-            if (!user) {
-                alert("User is not logged in.");
-                return;
-            }
+    const user = JSON.parse(localStorage.getItem('user'));
+    if (!user) {
+        alert("User is not logged in.");
+        return;
+    }
 
-            const fromUserId = user.id;
-            const toUserId = document.getElementById("toId").value;
-            const amount = parseFloat(document.getElementById("transferAmount").value);
+    const fromUserId = user.id;
+    const toUserId = document.getElementById("toId").value.trim();
+    const amount = parseFloat(document.getElementById("transferAmount").value);
 
-            if (!toUserId || isNaN(amount)) {
-                alert("Please fill all fields to transfer.");
-                return;
-            }
+    const transferMessage = document.getElementById("transfer-message");
+    transferMessage.classList.remove("error", "success");
 
-            if (amount <= 0) {
-                alert("Please enter a valid amount greater than zero.");
-                return;
-            }
+    if (!toUserId || isNaN(amount) || amount <= 0) {
+        transferMessage.textContent = "Please enter valid To ID and Amount.";
+        transferMessage.classList.add("error");
+        return;
+    }
 
-            const transferRequest = {
-                fromUserId: fromUserId,
-                toUserId: toUserId,
-                amount: amount
-            };
+    const transferRequest = {
+        fromUserId: fromUserId,
+        toUserId: toUserId,
+        amount: amount
+    };
 
-            fetch(apiUrl, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify(transferRequest),
-            })
-            .then(response => response.text())  // Since your backend returns a string, not JSON
-            .then(message => {
-                const transferMessage = document.getElementById("transfer-message");
-                if (message.toLowerCase().includes("success")) {
-                    transferMessage.textContent = message;
-                    transferMessage.className = 'success';
-                    document.getElementById("toId").value = '';
-                    document.getElementById("transferAmount").value = '';
-                } else {
-                    transferMessage.textContent = message;
-                    transferMessage.className = 'error';
-                }
-            })
-            .catch(error => {
-                const transferMessage = document.getElementById("transfer-message");
-                transferMessage.textContent = "Transfer failed. Please try again.";
-                transferMessage.className = 'error';
-            });
+    fetch(apiUrl, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(transferRequest),
+    })
+    .then(response => response.text())
+    .then(message => {
+        if (message.toLowerCase().includes("success")) {
+            transferMessage.textContent = message;
+            transferMessage.classList.add("success");
+            document.getElementById("toId").value = '';
+            document.getElementById("transferAmount").value = '';
+        } else {
+            transferMessage.textContent = message;
+            transferMessage.classList.add("error");
         }
+    })
+    .catch(error => {
+        transferMessage.textContent = "Transfer failed. Please try again.";
+        transferMessage.classList.add("error");
+    });
+}
+
+        
     </script>
 </body>
 </html>
