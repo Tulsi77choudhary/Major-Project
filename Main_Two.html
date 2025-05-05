@@ -2,16 +2,18 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Admin Dashboard - Online Banking System</title>
+  <title>Admin Dashboard - Bank Management System</title>
   <style>
     body {
-    margin: 0;
-    font-family: 'Segoe UI', sans-serif;
-    background-color: #f9f9f9;
+      margin: 0;
+      font-family: 'Segoe UI', sans-serif;
+      background: url('https://th.bing.com/th/id/R.79c566652b7f7e3d6f1febe3242ce46e?rik=c0e55SlHlb24HA&riu=http%3a%2f%2fwww.galadarilaw.com%2fwp-content%2fuploads%2f2020%2f04%2fbankingfinance-1.jpg&ehk=MY0Oa5IAL0H7RxVweDFUthwAgDHnb5DAmbmBO6hfLwA%3d&risl=&pid=ImgRaw&r=0') no-repeat center center fixed;
+      background-size: cover;
+      position: relative;
     }
   
     .navbar {
-    background-color: #d2a6b3;
+    background-color: #3c84bee8;
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -20,7 +22,7 @@
     }
   
     .logo {
-    font-size: 20px;
+    font-size: 23px;
     font-weight: bold;
     }
   
@@ -32,45 +34,51 @@
   }
   
   .success-banner {
-    background-color: #c9f6c4;
-    color: #14532d;
+    background-color: #363a35bb;
+    color: #141615e0;
     text-align: center;
     padding: 10px;
     font-weight: bold;
   }
   
   .hero {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 50px;
-    flex-wrap: wrap;
-  }
-  
-.hero-text {
-    max-width: 50%;
-}
-  
-.hero-text h1 {
-    font-size: 2.5em;
-    color: #333;
-}
-  
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      height: 80vh;
+      padding: 40px 80px;
+      flex-wrap: wrap;
+    }
+
+    .hero-text {
+      max-width: 50%;
+      color: #fff;
+      text-shadow: 2px 2px 6px rgba(0, 0, 0, 0.8);
+    }
+
+    .hero-text h1 {
+      font-size: 4em;
+      margin: 0;
+      line-height: 1.4;
+    }
+
 .highlight {
-    color: #8b2d74;
-}
-  
-.sub-text {
-    color: #2e1065;
-    font-weight: bold;
-    margin-top: 20px;
-}
+      color: #fbb6ce;
+    }
+
+    .sub-text {
+      margin-top: 20px;
+      font-size: 1.6em;
+      font-weight: bold;
+      color: #dcdbdb;
+    }
   
 .hero-image img {
-    margin-top: 50%;
-    margin-right: 30%;
-    max-width: 350px;
-    width: 100%;
+  height: 200px;
+      width: 80%;
+      max-width: 600px;
+      height: auto;
+      animation: float 2s ease-in-out infinite;
 }
   
     </style>
@@ -79,14 +87,16 @@
 
   <!-- Navigation Bar -->
   <nav class="navbar">
-    <div class="logo">🏦 Online Banking System</div>
+    <div class="logo">🏦 Bank Management System</div>
     <div class="nav-links">
+      <a href="RRR.html">Home</a>
       <a href="deposit.html">Deposit Money</a>
       <a href="withdrawal.html">Withdraw Money</a>
       <a href="transfer.html">Money Transfer</a>
       <a href="history.html">Transaction History</a>
       <a href="balance.html">Check Balance</a>
-      <a href="Home.html" onclick="logout()">Logout</a>
+      
+      <a href="RRR.html" onclick="logout()">Logout</a>
     </div>
   </nav>
 
@@ -107,5 +117,7 @@
       window.location.href = "index.html";
     }
   </script>
+  <!-- Add at the bottom of your page -->
+<iframe src="footer.html" style="width:100%; height:180px; border:none;"></iframe>
 </body>
 </html>

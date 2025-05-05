@@ -7,8 +7,11 @@
   <style>
     body {
       font-family: Arial, sans-serif;
-      background-color: #f5f7fa;
+      background-color: black;
       display: flex;
+      background: url('image.png') no-repeat;
+      background-size: cover;
+      background-position: center;
       justify-content: center;
       align-items: center;
       height: 100vh;
@@ -16,7 +19,7 @@
     }
 
     .container {
-      background-color: #fff;
+      background-color: #1a5475;
       padding: 25px 20px;
       border-radius: 10px;
       box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
@@ -24,12 +27,14 @@
     }
 
     h2 {
-      text-align: left;
+      text-align: center;
+      font-family: 'Times New Roman', Times, serif;
       margin-bottom: 20px;
+      color: white;
     }
 
     input {
-      width: 100%;
+      width: 90%;
       padding: 12px;
       margin-bottom: 15px;
       border: 1px solid #ccc;
@@ -55,11 +60,11 @@
     #deposit-message {
       text-align: center;
       margin-top: 10px;
-      color: red;
+      color: green;
     }
   </style>
 </head>
-<body>
+<body >
   <div class="container">
     <h2>Deposit</h2>
     <input type="number" id="account-id" placeholder="Account ID" required />

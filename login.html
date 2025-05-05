@@ -10,13 +10,16 @@
             display: flex;
             justify-content: center;
             align-items: center;
+            background: url('image.png') no-repeat;
+            background-size: cover;
+            background-position: center;
             height: 100vh;
             background-color: #f7f7f7;
             margin: 0;
         }
 
         .login-container {
-            background-color: white;
+            
             padding: 30px;
             border-radius: 8px;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
@@ -26,21 +29,23 @@
 
         h2 {
             color: #333;
+            font-family: 'Times New Roman', Times, serif;
             margin-bottom: 20px;
         }
 
         label {
             font-size: 14px;
             margin-bottom: 5px;
+            font-family: 'Times New Roman', Times, serif;
             display: block;
             text-align: left;
         }
 
         input {
-            width: 100%;
+            width: 90%;
             padding: 12px;
             margin-bottom: 20px;
-            border: 1px solid #ccc;
+            background-color: bisque;
             border-radius: 4px;
             font-size: 14px;
         }
@@ -48,7 +53,7 @@
         button {
             width: 100%;
             padding: 12px;
-            background-color: #4CAF50;
+            background-color: gray;
             border: none;
             border-radius: 4px;
             color: white;
@@ -73,14 +78,15 @@
         }
 
         .footer a {
-            color: #4CAF50;
+            color: orangered;
+            font-size: 0.9rem;
             text-decoration: none;
         }
     </style>
 </head>
 <body>
     <div class="login-container">
-        <h2>Login</h2>
+        <h2>User Login</h2>
         <form id="login-form">
             <label for="username">Username:</label>
             <input type="text" id="username" name="username" placeholder="Enter your username" required>

@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Bank Management System</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', sans-serif;
+      background: url('https://th.bing.com/th/id/R.79c566652b7f7e3d6f1febe3242ce46e?rik=c0e55SlHlb24HA&riu=http%3a%2f%2fwww.galadarilaw.com%2fwp-content%2fuploads%2f2020%2f04%2fbankingfinance-1.jpg&ehk=MY0Oa5IAL0H7RxVweDFUthwAgDHnb5DAmbmBO6hfLwA%3d&risl=&pid=ImgRaw&r=0') no-repeat center center fixed;
+      background-size: cover;
+      position: relative;
+    }
+
+    /* Overlay */
+    body::before {
+      content: "";
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.3);
+      z-index: -1;
+    }
+
+    .navbar {
+      background-color: rgba(7, 153, 205, 0.866);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 15px 30px;
+      position: sticky;
+      top: 0;
+    }
+
+    .logo {
+      font-size: 26px;
+      font-weight: bold;
+    }
+
+    .nav-links a {
+      margin: 0 12px;
+      text-decoration: none;
+      color: #000;
+      font-weight: 500;
+    }
+
+    .nav-links a:hover {
+      color: #fff;
+    }
+
+    .hero {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      height: 80vh;
+      padding: 40px 80px;
+      flex-wrap: wrap;
+    }
+
+    .hero-text {
+      max-width: 50%;
+      color: #fff;
+      text-shadow: 2px 2px 6px rgba(0, 0, 0, 0.8);
+    }
+
+    .hero-text h1 {
+      font-size: 4em;
+      margin: 0;
+      line-height: 1.4;
+    }
+
+    .highlight {
+      color: #fbb6ce;
+    }
+
+    .sub-text {
+      margin-top: 20px;
+      font-size: 1.6em;
+      font-weight: bold;
+      color: #dcdbdb;
+    }
+
+    .hero-image {
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+      height: 100%;
+      max-width: 45%;
+    }
+
+    .hero-image img {
+        height: 600px;
+      width: 100%;
+      max-width: 1000px;
+      height: auto;
+      padding-bottom: 0%;
+      animation: float 2s ease-in-out infinite;
+    }
+
+    @keyframes float {
+      0%, 100% {
+        transform: translateY(0);
+      }
+      50% {
+        transform: translateY(-10px);
+      }
+    }
+
+    @media (max-width: 768px) {
+      .hero {
+        flex-direction: column;
+        text-align: center;
+        height: auto;
+        padding: 40px 20px;
+      }
+
+      .hero-text,
+      .hero-image {
+        max-width: 100%;
+      }
+
+      .hero-image {
+        justify-content: center;
+        margin-top: 30px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Navigation Bar -->
+  <nav class="navbar">
+    <div class="logo">🏦 Bank Management System</div>
+    <div class="nav-links">
+      <a href="register.html">Registration</a>
+      <a href="login.html">Login</a>
+      <a href="#" onclick="logout()">Logout</a>
+    </div>
+  </nav>
+
+  <!-- Hero Section -->
+  <section class="hero">
+    <div class="hero-text">
+      <h1>Withdraw, Deposit &<br>Transfer Money<br><span class="highlight">Safe & Secure</span></h1>
+      <p class="sub-text">Make transactions safely without any hesitation.</p>
+    </div>
+    <div class="hero-image">
+      <img src="http://www.pngall.com/wp-content/uploads/1/Bank-PNG-File.png" alt="Bank Icon">
+    </div>
+  </section>
+
+  <script>
+    function logout() {
+      localStorage.removeItem("token");
+      window.location.href = "index.html";
+    }
+  </script>
+<!-- Add at the bottom of your page -->
+<iframe src="footer.html" style="width:100%; height:180px; border:none;"></iframe>
+
+
+</body>
+</html>

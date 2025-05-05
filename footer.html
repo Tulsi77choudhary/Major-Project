@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Footer - Bank Management System</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', sans-serif;
+      background-color: #f0f0f0;
+    }
+
+    footer {
+      background-color: rgba(0, 0, 0, 0.85);
+      color: white;
+      padding: 30px 20px;
+      text-align: center;
+    }
+
+    footer p {
+      font-size: 1.2em;
+      margin: 0;
+    }
+
+    .footer-links {
+      margin-top: 12px;
+    }
+
+    .footer-links a {
+      color: #70d6ff;
+      margin: 0 15px;
+      text-decoration: none;
+      font-weight: bold;
+      transition: color 0.3s ease;
+    }
+
+    .footer-links a:hover {
+      color: #ffd166;
+    }
+  </style>
+</head>
+<body>
+
+  <footer>
+    <div>
+      <p>&copy; 2025 Bank Management System. All rights reserved.</p>
+      <div class="footer-links">
+        <a href="about.html">About Us</a>
+        <a href="contact.html">Contact Us</a>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    // Optional: Alert on link hover (you can modify or remove this)
+    const links = document.querySelectorAll('.footer-links a');
+    links.forEach(link => {
+      link.addEventListener('mouseenter', () => {
+        console.log(Hovered over ${link.textContent});
+      });
+    });
+  </script>
+</body>
+</html>
