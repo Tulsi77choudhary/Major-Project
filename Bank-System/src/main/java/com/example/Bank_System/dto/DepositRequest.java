@@ -1,10 +1,12 @@
 package com.example.Bank_System.dto;
 
+import lombok.Data;
+
+@Data
 public class DepositRequest {
     private Long userId;
     private Double amount;
 
-    // Getters and Setters
     public Long getUserId() {
         return userId;
     }

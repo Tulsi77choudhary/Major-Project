@@ -1,7 +1,10 @@
 package com.example.Bank_System.service;
 
+//import com.example.Bank_System.dto.CreateAccountRequest;
+//import com.example.Bank_System.entity.Account;
 import com.example.Bank_System.entity.Transaction;
 import com.example.Bank_System.entity.User;
+//import com.example.Bank_System.repository.AccountRepository;
 import com.example.Bank_System.repository.TransactionRepository;
 import com.example.Bank_System.repository.UserRepository;
 import jakarta.transaction.Transactional;
@@ -112,4 +115,20 @@ public class BankService {
         tx.setTimestamp(LocalDateTime.now());
         transactionRepo.save(tx);
     }
+
+
+//    public Account createAccount(CreateAccountRequest request) {
+//        User user = userRepo.findById(request.getUserId())
+//                .orElseThrow(() -> new RuntimeException("User not found"));
+//
+//        Account account = new Account();
+//        account.setAccountNumber(generateAccountNumber());
+//        account.setBalance(request.getInitialBalance() != null ? request.getInitialBalance() : 0.0);
+//
+//        return accountRepository.save(account);
+//    }
+//
+//    private String generateAccountNumber() {
+//        return "ACCT-" + System.currentTimeMillis() + "-" + (int) (Math.random() * 10000);
+//    }
 }

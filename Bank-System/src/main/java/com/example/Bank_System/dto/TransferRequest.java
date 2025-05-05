@@ -1,5 +1,8 @@
 package com.example.Bank_System.dto;
 
+import lombok.Data;
+
+@Data
 public class TransferRequest {
     private Long fromUserId;
     private Long toUserId;

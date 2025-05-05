@@ -1,8 +1,10 @@
 package com.example.Bank_System.controller;
 
+//import com.example.Bank_System.dto.CreateAccountRequest;
 import com.example.Bank_System.dto.DepositRequest;
 import com.example.Bank_System.dto.TransferRequest;
 import com.example.Bank_System.dto.WithdrawRequest;
+//import com.example.Bank_System.entity.Account;
 import com.example.Bank_System.entity.Transaction;
 import com.example.Bank_System.entity.User;
 import com.example.Bank_System.service.BankService;
@@ -19,7 +21,6 @@ import java.util.Map;
 @RestController
 @RequestMapping("/api/bank")
 @CrossOrigin(origins = "http://127.0.0.1:5500")
-
 public class BankController {
 
     @Autowired
@@ -109,6 +110,7 @@ public class BankController {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
         }
     }
+
 
 
 }

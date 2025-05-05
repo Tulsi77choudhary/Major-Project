@@ -1,10 +1,14 @@
 package com.example.Bank_System.dto;
 
-public class WithdrawRequest {
-    private Long userId;
-    private Double amount;
 
-    // Getters and Setters
+import lombok.Data;
+
+@Data
+public class WithdrawRequest {
+
+    private Long userId;
+    private double amount;
+
     public Long getUserId() {
         return userId;
     }
@@ -13,11 +17,11 @@ public class WithdrawRequest {
         this.userId = userId;
     }
 
-    public Double getAmount() {
+    public double getAmount() {
         return amount;
     }
 
-    public void setAmount(Double amount) {
+    public void setAmount(double amount) {
         this.amount = amount;
     }
 }
